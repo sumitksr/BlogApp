@@ -1,9 +1,30 @@
 {
   "dependencies": {
-    "dotenv": "^16.6.0",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "mongoose": "^8.16.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.0",
     "nodejs": "^0.0.0",
     "nodemon": "^3.1.10"
-  }
+  },
+  "name": "file-upload",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sumitksr/file-upload.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sumitksr/file-upload/issues"
+  },
+  "homepage": "https://github.com/sumitksr/file-upload#readme",
+  "description": ""
 }
