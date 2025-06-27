@@ -10,13 +10,18 @@ app.use(express.json());
 // Import DB connection
 const DBconnect = require('./config/database');
 DBconnect.connect();
-
+// file upload middleware joki server pe file upload krega
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
+  
+// cloudinary pe upload krne ke liye
 const cloudinaryConnect = require('./config/cloudinary');
 cloudinaryConnect.cloudinaryConnect(); 
 
+
 // Routes
 const userRoutes = require('./routes/fileUpload');
-app.use('/api', userRoutes);
+app.use('/api/v1/upload', userRoutes);
 
 // Default route
 app.get('/', (req, res) => {
