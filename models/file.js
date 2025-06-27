@@ -12,8 +12,7 @@ const fileSchema = new mongoose.Schema({
         type:String
     },
     email: {
-        type: String,
-        required: true
+        type: String
     },
 })
-module.exports = mongoose.model('file', fileSchema);
+module.exports = mongoose.model('File', fileSchema);
