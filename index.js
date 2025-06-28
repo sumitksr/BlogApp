@@ -12,7 +12,10 @@ const DBconnect = require('./config/database');
 DBconnect.connect();
 // file upload middleware joki server pe file upload krega
 const fileUpload = require('express-fileupload');
-app.use(fileUpload());
+app.use(fileUpload({
+    useTempFiles: true, // Temporary files will be stored in the system's temp directory
+    tempFileDir: '/tmp/', // Specify the temporary file directory
+}));
   
 // cloudinary pe upload krne ke liye
 const cloudinaryConnect = require('./config/cloudinary');
