@@ -18,10 +18,27 @@ export default function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // Here you would handle authentication logic
-    console.log("Login Data Submitted:", formData);
-    alert("Logged in successfully!");
-    navigate('/');
+    fetch('http://localhost:8000/api/v1/upload/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+      credentials: 'include', // Important: allows cookies to be sent/received
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          // Store token in localStorage for client-side checks and API calls
+          localStorage.setItem('token', data.token);
+          alert("Logged in successfully!");
+          navigate('/');
+        } else {
+          alert(data.message || "Login failed");
+        }
+      })
+      .catch(err => {
+        alert("Login error");
+        console.error(err);
+      });
   }
 
   return (

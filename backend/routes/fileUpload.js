@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const {imageUpload,imageReducerUpload,localFileUpload} = require('../controllers/fileUpload');
+const {login, signup} = require('../controllers/login');
+const {imageUpload} = require('../controllers/fileUpload');
+const { auth } = require('../middlewares/auth');
+router.post('/image', auth, imageUpload);
+router.get('/login',login) 
+router.post('/signup', signup)
 
-
-router.post('/image', imageUpload);
-router.post('/image-reducer', imageReducerUpload);
-router.post('/local-file', localFileUpload);
 module.exports = router;

@@ -7,6 +7,8 @@ import Navbar from './components/Navbar';
 import { Routes, Route } from 'react-router-dom';
 import EditPost from './pages/editPost';
 import Footer from './components/Footer';
+import NotFound from './pages/NotFound';
+import RequireAuth from './components/RequireAuth';
 
 function App() {
   return (
@@ -15,10 +17,19 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/post/:id" element={<Post />} />
-        <Route path="/create" element={<CreatePost />} />
+        <Route path="/create" element={
+          <RequireAuth>
+            <CreatePost />
+          </RequireAuth>
+        } />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/edit/:id" element={<EditPost />} />
+        <Route path="/edit" element={
+          <RequireAuth>
+            <EditPost />
+          </RequireAuth>
+        } />
+        <Route path ="*" element={<NotFound/>}/>
       </Routes>
       <Footer/>
     </>

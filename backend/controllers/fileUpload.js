@@ -70,7 +70,7 @@ exports.imageUpload = async (req, res) => {
         message: "Invalid file type. Only images are allowed." });
     }
     // upload cloudinary 
-    const response= await uploadFileToCloudinary(file, "Blog");
+    const response= await uploadFileToCloudinary(file, "Blog",90);
     console.log("Image uploaded to Cloudinary:", response);
     // save to db
     const newFile = await File.create({
@@ -95,39 +95,5 @@ exports.imageUpload = async (req, res) => {
 }
 
 
-exports.imageReducerUpload = async (req, res) => {
-  try{
-    // data fecth
-    const {name,tags,email} = req.body;
-    const file = req.files.file; 
-    console.log("Image file received:", file);
-    // validation 
-    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-    const fileExtension = file.name.split('.')[1].toLowerCase();
-    if (!allowedExtensions.includes(fileExtension)) {
-      return res.status(400).json({ 
-        sucess: false,
-        message: "Invalid file type. Only images are allowed." });
-    }
-    // upload cloudinary 
-    const response= await uploadFileToCloudinary(file, "Blog",50);
-    console.log("Image uploaded to Cloudinary:", response);
-    // save to db
-    const newFile = await File.create({
-      name:name,
-      imageUrl: response.secure_url,
-      tags: tags,
-      email: email
-    });
-    res.json({
-      success: true,
-      imageUrl: response.secure_url,
-      message: "Image uploaded and saved successfully",
-      file: newFile,
-    });
-  }
-  catch (error) {
-    console.error("Error uploading image:", error);
-    res.status(500).json({ message: "Image upload failed", error: error.message });
-  }
-}
+
+  

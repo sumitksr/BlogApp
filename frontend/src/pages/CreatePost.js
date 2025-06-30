@@ -24,9 +24,35 @@ export default function CreatePost() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
-    alert("Post created successfully!");
-    navigate('/');
+    // Prepare form data
+    const form = new FormData();
+    form.append('name', formData.title);
+    form.append('tags', formData.summary);
+    form.append('email', formData.author);
+    if (imageInputRef.current && imageInputRef.current.files[0]) {
+      form.append('file', imageInputRef.current.files[0]);
+    }
+    fetch('http://localhost:8000/api/v1/upload/image', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: form,
+      credentials: 'include',
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert('Post created successfully!');
+          navigate('/');
+        } else {
+          alert(data.message || 'Failed to create post');
+        }
+      })
+      .catch(err => {
+        alert('Error creating post');
+        console.error(err);
+      });
   }
 
   return (
