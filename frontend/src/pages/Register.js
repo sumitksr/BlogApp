@@ -32,60 +32,72 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 py-10 flex items-center justify-center">
-      <div className="bg-white/90 rounded-2xl shadow-2xl p-8 w-full max-w-md">
-        <h1 className="text-3xl font-extrabold text-center text-purple-700 mb-8 drop-shadow-lg">Register</h1>
+      <div className="bg-white/90 rounded-2xl shadow-2xl p-8 w-full max-w-md animate-fade-in-up">
+        <h1 className="text-3xl font-extrabold text-center text-purple-700 mb-8 drop-shadow-lg animate-fade-in-up">Register</h1>
         <form className="space-y-6" onSubmit={handleSubmit}>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Name</label>
+          <div className="relative">
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+              className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
               placeholder="Enter your name"
               required
             />
+            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Name</label>
           </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Email</label>
+          <div className="relative">
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+              className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
               placeholder="Enter your email"
               required
             />
+            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Email</label>
           </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+          <div className="relative">
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+              className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
               placeholder="Enter your password"
               required
             />
+            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Password</label>
           </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Confirm Password</label>
+          <div className="relative">
             <input
               type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+              className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
               placeholder="Confirm your password"
               required
             />
+            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Confirm Password</label>
           </div>
-          <button type="submit" className="w-full py-3 mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg shadow-md transition-colors">Register</button>
+          <button type="submit" className="w-full py-3 mt-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-bold rounded-lg shadow-md transition-all duration-300 flex items-center justify-center gap-2">
+            <svg className="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 21v-2a4 4 0 00-8 0v2M12 11a4 4 0 100-8 4 4 0 000 8z" /></svg>
+            Register
+          </button>
         </form>
       </div>
+      <style>{`
+        @keyframes fade-in-up {
+          0% { opacity: 0; transform: translateY(40px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+          animation: fade-in-up 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+        }
+      `}</style>
     </div>
   );
 }

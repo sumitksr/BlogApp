@@ -31,67 +31,67 @@ export default function CreatePost() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 py-10 flex items-center justify-center">
-      <div className="bg-white/90 rounded-2xl shadow-2xl p-8 w-full max-w-xl">
-        <h1 className="text-3xl font-extrabold text-center text-purple-700 mb-8 drop-shadow-lg">Create a New Post</h1>
+      <div className="bg-white/90 rounded-2xl shadow-2xl p-8 w-full max-w-xl animate-fade-in-up">
+        <h1 className="text-3xl font-extrabold text-center text-purple-700 mb-8 drop-shadow-lg animate-fade-in-up">Create a New Post</h1>
         <form className="space-y-6" onSubmit={handleSubmit}>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Title</label>
+          <div className="relative">
             <input
               type="text"
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+              className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
               placeholder="Enter post title"
               required
             />
+            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Title</label>
           </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Summary</label>
+          <div className="relative">
             <input
               type="text"
               name="summary"
               value={formData.summary}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+              className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
               placeholder="Short summary"
               required
             />
+            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Summary</label>
           </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Content</label>
+          <div className="relative">
             <textarea
               name="content"
               value={formData.content}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 min-h-[120px]"
+              className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 min-h-[120px] placeholder-transparent"
               placeholder="Write your post content here..."
               required
             />
+            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Content</label>
           </div>
           <div className="flex gap-4">
-            <div className="flex-1">
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Author</label>
+            <div className="flex-1 relative">
               <input
                 type="text"
                 name="author"
                 value={formData.author}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
                 placeholder="Author name"
                 required
               />
+              <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Author</label>
             </div>
-            <div className="flex-1">
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Date</label>
+            <div className="flex-1 relative">
               <input
                 type="date"
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
                 required
               />
+              <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Date</label>
             </div>
           </div>
           <div>
@@ -104,9 +104,21 @@ export default function CreatePost() {
               className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
             />
           </div>
-          <button type="submit" className="w-full py-3 mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg shadow-md transition-colors">Create Post</button>
+          <button type="submit" className="w-full py-3 mt-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-bold rounded-lg shadow-md transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden">
+            <span className="z-10"> <svg className="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg> Create Post</span>
+            <span className="absolute inset-0 bg-white opacity-0 transition-opacity duration-300 group-hover:opacity-10 pointer-events-none" />
+          </button>
         </form>
       </div>
+      <style>{`
+        @keyframes fade-in-up {
+          0% { opacity: 0; transform: translateY(40px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+          animation: fade-in-up 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+        }
+      `}</style>
     </div>
   );
 }
