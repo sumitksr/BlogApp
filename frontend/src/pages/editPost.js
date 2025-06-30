@@ -18,7 +18,6 @@ export default function EditPost() {
   function handleDelete(id) {
     if (window.confirm("Are you sure you want to delete this post?")) {
       setUserPosts(prev => prev.filter(post => post.id !== id));
-      // Implement backend delete logic here
     }
   }
 
