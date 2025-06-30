@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BACKEND_URL } from '../utils/config';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch('http://localhost:8000/api/v1/upload/login', {
+    fetch(`${BACKEND_URL}/api/v1/upload/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),

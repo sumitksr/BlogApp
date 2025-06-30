@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BACKEND_URL } from '../utils/config';
 
 export default function CreatePost() {
   const imageInputRef = useRef();
@@ -32,7 +33,7 @@ export default function CreatePost() {
     if (imageInputRef.current && imageInputRef.current.files[0]) {
       form.append('file', imageInputRef.current.files[0]);
     }
-    fetch('http://localhost:8000/api/v1/upload/image', {
+    fetch(`${BACKEND_URL}/api/v1/upload/image`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,

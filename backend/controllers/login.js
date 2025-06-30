@@ -99,6 +99,6 @@ exports.login = async (req, res) => {
 
     } catch (error) {
         console.error('Error during login:', error);
-        res.status(500).json({ message: 'Login failure' });
+        res.status(500).json({ message: 'Login failure', error: error.message }); // Add error.message for debugging
     }
 };

@@ -1,19 +1,15 @@
-// Import Mongoose 
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-
-// Route Handler 
 const likeSchema = new mongoose.Schema({
-    post:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref : "user" //reference to the post model
-    },
-    user: {
-        type:String,
-        required:true,
-    },    
-})
+  post: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "file", // This should refer to your Post model (e.g., File)
+    required: true,
+  },
+  user: {
+    type: String, // or mongoose.Schema.Types.ObjectId if users are stored in DB
+    required: true,
+  },
+});
 
-
-// Export 
-module.exports = mongoose.model("Like",likeSchema)
+module.exports = mongoose.model("Like", likeSchema);

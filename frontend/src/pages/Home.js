@@ -1,7 +1,25 @@
-import React from 'react'
-import blogPosts from '../data.js';
-import Card from '../components/Card.js'
+import React, { useEffect, useState } from 'react';
+import Card from '../components/Card.js';
+import { BACKEND_URL } from '../utils/config';
+
 export default function Home() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/api/v1/upload/posts`)
+      .then(res => res.json())
+      .then(data => {
+        setPosts(data.posts || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError('Failed to load posts');
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 py-8">
       {/* Hero Section */}
@@ -15,13 +33,19 @@ export default function Home() {
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-extrabold text-center text-purple-700 mb-8 drop-shadow-lg animate-fade-in-up">Blog Posts</h2>
         <div className="bg-white/80 rounded-xl shadow-lg p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in-up">
-          {
-            blogPosts.map((post, idx) => (
-              <div style={{ animationDelay: `${idx * 80}ms` }} className="animate-fade-in-up" key={post.id}>
+          {loading ? (
+            <div className="col-span-full text-center text-gray-500">Loading...</div>
+          ) : error ? (
+            <div className="col-span-full text-center text-red-500">{error}</div>
+          ) : posts.length === 0 ? (
+            <div className="col-span-full text-center text-gray-500">No posts found.</div>
+          ) : (
+            posts.map((post, idx) => (
+              <div style={{ animationDelay: `${idx * 80}ms` }} className="animate-fade-in-up" key={post.id || post._id}>
                 <Card post={post} />
               </div>
             ))
-          }
+          )}
         </div>
       </div>
       <style>{`
@@ -34,5 +58,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  )
+  );
 }

@@ -54,31 +54,43 @@ async function uploadFileToCloudinary(file,folder,quality=100) {
   return await cloudinary.uploader.upload(file.tempFilePath,options);
 }
 
-// image upload
 exports.imageUpload = async (req, res) => {
-  try{
-    // data fecth
-    const {name,tags,email} = req.body;
-    const file = req.files.file; 
+  try {
+    // data fetch from req.body
+    const { name, tags, email, title, content, summary, author, userid } = req.body;
+
+    // file fetch from req.files
+    const file = req.files.file;
     console.log("Image file received:", file);
-    // validation 
+
+    // file validation
     const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-    const fileExtension = file.name.split('.')[1].toLowerCase();
+    const fileExtension = file.name.split('.').pop().toLowerCase();
     if (!allowedExtensions.includes(fileExtension)) {
-      return res.status(400).json({ 
-        sucess: false,
-        message: "Invalid file type. Only images are allowed." });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid file type. Only images are allowed.",
+      });
     }
-    // upload cloudinary 
-    const response= await uploadFileToCloudinary(file, "Blog",90);
+
+    // upload file to cloudinary
+    const response = await uploadFileToCloudinary(file, "Blog", 90);
     console.log("Image uploaded to Cloudinary:", response);
-    // save to db
+
+    // save to database
     const newFile = await File.create({
-      name:name,
+      name: name,
       imageUrl: response.secure_url,
       tags: tags,
-      email: email
+      email: email,
+      title: title,
+      content: content,
+      summary: summary,
+      author: author,
+      userid: userid,
     });
+
+    // success response
     res.json({
       success: true,
       imageUrl: response.secure_url,
@@ -86,14 +98,48 @@ exports.imageUpload = async (req, res) => {
       file: newFile,
     });
 
-
-  }
-  catch (error) {
+  } catch (error) {
     console.error("Error uploading image:", error);
-    res.status(500).json({ message: "Image upload failed", error: error.message });
+    res.status(500).json({
+      message: "Image upload failed",
+      error: error.message,
+    });
   }
-}
+};
 
 
+// Get all posts/files
+exports.getAllPosts = async (req, res) => {
+  try {
+    // Populate likes and comments if referenced, or just count them if stored as arrays
+    const files = await File.find({});
+    // If you want to include like/comment counts, you can map here
+    const posts = files.map(file => ({
+      ...file.toObject(),
+      likes: file.likes ? file.likes.length : 0,
+      comments: file.comments ? file.comments.length : 0
+    }));
+    res.status(200).json({ success: true, posts });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Failed to fetch posts', error: error.message });
+  }
+};
+
+// Get a single post by id with comments
+exports.getPostById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await File.findById(id).populate({
+      path: 'comments',
+      model: 'Comment'
+    });
+    if (!post) {
+      return res.status(404).json({ success: false, message: 'Post not found' });
+    }
+    res.status(200).json({ success: true, post });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Failed to fetch post', error: error.message });
+  }
+};
 
   

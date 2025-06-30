@@ -1,14 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import blogPosts from '../data.js';
+import { BACKEND_URL } from '../utils/config';
 
 export default function Post() {
   const { id } = useParams();
-  const post = blogPosts.find((post) => post.id === parseInt(id));
-  if (!post) {
-    return <div className="text-center text-red-500 mt-10 text-xl font-semibold">Post not found</div>;
-  }
-  const { title, content, author, date, image } = post;
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/api/v1/upload/posts/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setPost(data.post);
+        } else {
+          setError(data.message || 'Post not found');
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        setError('Failed to load post');
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) return <div className="text-center mt-10 text-xl">Loading...</div>;
+  if (error || !post) return <div className="text-center text-red-500 mt-10 text-xl font-semibold">{error || 'Post not found'}</div>;
+
+  const { title, content, author, date, image, comments = [] } = post;
   return (
     <div className="minscreen-h- bg-gradient-to-br from-blue-50 to-purple-100 py-10 px-2">
       <div className="max-w-3xl mx-auto">
@@ -31,6 +51,22 @@ export default function Post() {
           <div className="text-gray-800 text-lg leading-relaxed whitespace-pre-line">
             {content}
           </div>
+        </div>
+        {/* Comments Section */}
+        <div className="mt-10 bg-white/80 rounded-xl shadow-lg p-6">
+          <h2 className="text-2xl font-bold text-purple-700 mb-4">Comments</h2>
+          {comments.length === 0 ? (
+            <div className="text-gray-500">No comments yet.</div>
+          ) : (
+            <ul className="space-y-4">
+              {comments.map((comment, idx) => (
+                <li key={comment._id || idx} className="border-b border-purple-100 pb-2">
+                  <div className="text-sm text-gray-700 font-semibold mb-1">{comment.user}</div>
+                  <div className="text-gray-800">{comment.body}</div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>

@@ -15,26 +15,10 @@ const user = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  author: {
-    type: String,
-    required: true,
-  },
   password: {
     type: String,
     required: true,
   },
-  likes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Like", // ref from like
-    },
-  ],
-  comments: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment", // ref from comments
-    },
-  ],
 });
 
 // post middlerware

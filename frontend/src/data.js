@@ -7,7 +7,9 @@ const blogPosts = [
     content: "JavaScript frameworks like React, Vue, and Angular have changed how we build web apps...",
     author: "Sumit Kumar",
     date: "2025-06-30",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5ZH3Mfo5Ufn9CZX4nYU1Qxs5xyUOcJUqOqQ&s"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5ZH3Mfo5Ufn9CZX4nYU1Qxs5xyUOcJUqOqQ&s",
+    likes: 12,
+    comments: 3
   },
   {
     id: 2,
@@ -16,7 +18,9 @@ const blogPosts = [
     content: "React's ecosystem, community, and simplicity make it a top choice even in 2025...",
     author: "Jane Doe",
     date: "2025-06-28",
-    image: "https://i.ytimg.com/vi/0EtYzQn-Scw/hqdefault.jpg"
+    image: "https://i.ytimg.com/vi/0EtYzQn-Scw/hqdefault.jpg",
+    likes: 8,
+    comments: 1
   },
   {
     id: 3,
@@ -25,7 +29,9 @@ const blogPosts = [
     content: "Whether it's Vite for fast builds or Tailwind for utility-first styling...",
     author: "John Smith",
     date: "2025-06-27",
-    image: "https://source.unsplash.com/random/800x400?frontend"
+    image: "https://source.unsplash.com/random/800x400?frontend",
+    likes: 5,
+    comments: 0
   }
 ];
 
