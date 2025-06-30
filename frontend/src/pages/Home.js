@@ -1,24 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import Card from '../components/Card.js';
-import { BACKEND_URL } from '../utils/config';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  async function fetchPosts() {
+    try { 
+      setLoading(true);
+      const response = await fetch(`http://localhost:8000/api/v1/upload/posts`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setPosts(data.posts || []);
+      setLoading(false);
+    } catch (err) {
+      setError('Failed to load posts');
+      setLoading(false);
+     }}
 
-  useEffect(() => {
-    fetch(`${BACKEND_URL}/api/v1/upload/posts`)
-      .then(res => res.json())
-      .then(data => {
-        setPosts(data.posts || []);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError('Failed to load posts');
-        setLoading(false);
-      });
-  }, []);
+useEffect(() => {
+  fetchPosts();
+}, []); 
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 py-8">

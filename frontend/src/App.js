@@ -9,6 +9,7 @@ import EditPost from './pages/editPost';
 import Footer from './components/Footer';
 import NotFound from './pages/NotFound';
 import RequireAuth from './components/RequireAuth';
+import "./index.css";
 
 function App() {
   return (

@@ -1,45 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { BACKEND_URL } from '../utils/config';
+import { useAuth } from "../context/AuthContext";
+
+const AuthContext = createContext();
+
+export function AuthProvider({ children }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+
+  useEffect(() => {
+    setIsLoggedIn(!!localStorage.getItem("token"));
+  }, []);
+
+  const login = (token) => {
+    localStorage.setItem("token", token);
+    setIsLoggedIn(true);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+  };
+
+  return (
+    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
 
 export default function Login() {
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    fetch(`${BACKEND_URL}/api/v1/upload/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-      credentials: 'include', // Important: allows cookies to be sent/received
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          // Store token in localStorage for client-side checks and API calls
-          localStorage.setItem('token', data.token);
-          alert("Logged in successfully!");
-          navigate('/');
-        } else {
-          alert(data.message || "Login failed");
-        }
-      })
-      .catch(err => {
-        alert("Login error");
-        console.error(err);
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/v1/upload/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+        credentials: 'include',
       });
+      const data = await res.json();
+      if (data.success) {
+        login(data.token); // Use context login
+        alert("Logged in successfully!");
+        navigate('/');
+      } else {
+        setError(data.message || "Login failed");
+      }
+    } catch (err) {
+      setError("Login error");
+    }
+    setLoading(false);
   }
 
   return (
@@ -56,6 +84,7 @@ export default function Login() {
               className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
               placeholder="Enter your email"
               required
+              disabled={loading}
             />
             <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Email</label>
           </div>
@@ -68,12 +97,22 @@ export default function Login() {
               className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
               placeholder="Enter your password"
               required
+              disabled={loading}
             />
             <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Password</label>
           </div>
-          <button type="submit" className="w-full py-3 mt-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-bold rounded-lg shadow-md transition-all duration-300 flex items-center justify-center gap-2">
-            <svg className="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" /></svg>
-            Login
+          {error && <div className="text-red-500 text-center">{error}</div>}
+          <button
+            type="submit"
+            className="w-full py-3 mt-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-bold rounded-lg shadow-md transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : (
+              <>
+                <svg className="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" /></svg>
+                Login
+              </>
+            )}
           </button>
         </form>
       </div>

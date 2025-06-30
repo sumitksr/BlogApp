@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BACKEND_URL } from '../utils/config';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -9,6 +10,8 @@ export default function Register() {
     password: '',
     confirmPassword: '',
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -18,16 +21,35 @@ export default function Register() {
     }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+    setError('');
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match!");
       return;
     }
-    // Here you would handle registration logic
-    console.log("Registration Data Submitted:", formData);
-    alert("Registered successfully!");
-    navigate('/login');
+    setLoading(true);
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/v1/upload/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert("Registered successfully!");
+        navigate('/login');
+      } else {
+        setError(data.message || "Registration failed");
+      }
+    } catch (err) {
+      setError("Registration error");
+    }
+    setLoading(false);
   }
 
   return (
@@ -44,6 +66,7 @@ export default function Register() {
               className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
               placeholder="Enter your name"
               required
+              disabled={loading}
             />
             <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Name</label>
           </div>
@@ -56,6 +79,7 @@ export default function Register() {
               className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
               placeholder="Enter your email"
               required
+              disabled={loading}
             />
             <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Email</label>
           </div>
@@ -68,6 +92,7 @@ export default function Register() {
               className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
               placeholder="Enter your password"
               required
+              disabled={loading}
             />
             <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Password</label>
           </div>
@@ -80,12 +105,22 @@ export default function Register() {
               className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
               placeholder="Confirm your password"
               required
+              disabled={loading}
             />
             <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Confirm Password</label>
           </div>
-          <button type="submit" className="w-full py-3 mt-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-bold rounded-lg shadow-md transition-all duration-300 flex items-center justify-center gap-2">
-            <svg className="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 21v-2a4 4 0 00-8 0v2M12 11a4 4 0 100-8 4 4 0 000 8z" /></svg>
-            Register
+          {error && <div className="text-red-500 text-center">{error}</div>}
+          <button
+            type="submit"
+            className="w-full py-3 mt-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-bold rounded-lg shadow-md transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60"
+            disabled={loading}
+          >
+            {loading ? "Registering..." : (
+              <>
+                <svg className="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 21v-2a4 4 0 00-8 0v2M12 11a4 4 0 100-8 4 4 0 000 8z" /></svg>
+                Register
+              </>
+            )}
           </button>
         </form>
       </div>

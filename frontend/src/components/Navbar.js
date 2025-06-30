@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
-  const [login, setLogin] = useState(false);
+  const { isLoggedIn, logout } = useAuth();
 
   return (
     <nav className="bg-gray-900 bg-opacity-90 backdrop-blur-md shadow-md p-3 sticky top-0 z-50">
@@ -11,12 +12,12 @@ export default function Navbar() {
           <span className="font-serif ">Blog Website</span>
         </a>
         <div>
-          {login ? (
+          {isLoggedIn ? (
             <div className="flex gap-3 items-center">
               <a href="/" className="nav-btn">Home</a>
               <a href="/create" className="nav-btn">Create Post</a>
               <a href="/edit/:id" className="nav-btn">Edit Post</a>
-              <button onClick={() => setLogin(false)} className="logout-btn">
+              <button onClick={logout} className="logout-btn">
                 Logout
               </button>
             </div>

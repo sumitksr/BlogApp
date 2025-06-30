@@ -9,7 +9,7 @@ export default function Post() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${BACKEND_URL}/api/v1/upload/posts/${id}`)
+    fetch(`http://localhost:8000/api/v1/upload/posts/${id}`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {
