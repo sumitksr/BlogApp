@@ -25,7 +25,7 @@ const blogPosts = [
     content: "Whether it's Vite for fast builds or Tailwind for utility-first styling...",
     author: "John Smith",
     date: "2025-06-27",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlGmKtrnxElpqw3AExKXPWWBulcwjlvDJa1Q&s"
+    image: "https://source.unsplash.com/random/800x400?frontend"
   }
 ];
 
