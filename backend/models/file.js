@@ -16,6 +16,7 @@ const fileSchema = new mongoose.Schema({
         type: String
     },
 })
+
 // post middlerware
 // doc is the document that is being saved
 // this middleware will run after the document is saved to the database
