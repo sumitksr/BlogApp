@@ -15,25 +15,29 @@ exports.likePost = async (req, res) => {
     // 2. Check if this user already liked this post
     const alreadyLiked = await Like.findOne({ post, user });
     if (alreadyLiked) {
-      return res.status(400).json({ error: "User has already liked this post" });
+      // Unlike: remove the like document and update the post
+      await Like.findByIdAndDelete(alreadyLiked._id);
+      const updatedPost = await File.findByIdAndUpdate(
+        post,
+        { $pull: { likes: alreadyLiked._id } },
+        { new: true }
+      ).populate("likes");
+      return res.json({ post: updatedPost, liked: false });
     }
 
-    // 3. Create the like
+    // Like: create the like and update the post
     const like = new Like({ post, user });
     const savedLike = await like.save();
-
-    // 4. Update the post
     const updatedPost = await File.findByIdAndUpdate(
       post,
       { $push: { likes: savedLike._id } },
       { new: true }
     ).populate("likes");
-
-    res.json({ post: updatedPost });
+    res.json({ post: updatedPost, liked: true });
   } catch (err) {
     console.error("LIKE ERROR:", err);
     return res.status(500).json({
-      error: "Error While Liking post",
+      error: "Error While Liking/Unliking post",
     });
   }
 };

@@ -6,6 +6,8 @@ const PORT = process.env.PORT || 8000;
 
 // Middleware
 app.use(express.json());
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 // Import DB connection
 const DBconnect = require('./config/database');

@@ -7,7 +7,8 @@ const likeSchema = new mongoose.Schema({
     required: true,
   },
   user: {
-    type: String, // or mongoose.Schema.Types.ObjectId if users are stored in DB
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
     required: true,
   },
 });

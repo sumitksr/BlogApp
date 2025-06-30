@@ -1,5 +1,6 @@
 // import model 
-const user = require("../models/user");
+const File = require("../models/file"); // Import your post/file model
+const User = require("../models/user");
 const Comment = require("../models/commentModel");
 
 // business Logic
@@ -20,16 +21,18 @@ exports.createComment = async (req, res) => {
         // push is used to edit or make changes
         // pull is used to delete 
         // isse sirf ek chiz pe edit hoga 
-        const updatedPost = await user.findByIdAndUpdate(post, { $push: { comments: savedComment._id } },
-            { new: true })
-            .populate("comments") //Populates the comment array with the comments document
-            .exec();
+        const updatedPost = await File.findByIdAndUpdate(
+            post,
+            { $push: { comments: savedComment._id } },
+            { new: true }
+        ).populate("comments");
 
         res.json({
             post: updatedPost,
         })
     }
     catch (err) {
+        console.error("COMMENT ERROR:", err);
         return res.status(500).json({
             error : "Error while creating comment",            
         })
@@ -38,11 +41,15 @@ exports.createComment = async (req, res) => {
 exports.getAllComments = async (req, res) => { 
     try {
         // fetch all comments from the db 
-        const comments = await Comment.find({}).populate("user").exec();
+        const comments = await Comment.find({})
+            .populate("user")
+            .populate("post")
+            .exec();
         res.json({
             comments: comments,
         })
     } catch (err) {
+        console.error("GET COMMENTS ERROR:", err);
         return res.status(500).json({
             error: "Error while fetching comments",
         })
