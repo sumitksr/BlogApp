@@ -16,7 +16,7 @@ export default function Navbar() {
             <div className="flex gap-3 items-center">
               <a href="/" className="nav-btn">Home</a>
               <a href="/create" className="nav-btn">Create Post</a>
-              <a href="/edit/:id" className="nav-btn">Edit Post</a>
+              <a href="/edit/:id" className="nav-btn">Manage your Post</a>
               <button onClick={logout} className="logout-btn">
                 Logout
               </button>

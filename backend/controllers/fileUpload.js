@@ -142,4 +142,12 @@ exports.getPostById = async (req, res) => {
   }
 };
 
-  
+exports.deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await File.findByIdAndDelete(id);
+    res.status(200).json({ success: true, message: 'Post deleted' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Failed to delete post', error: error.message });
+  }
+};

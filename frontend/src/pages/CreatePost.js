@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BACKEND_URL } from '../utils/config';
+import { jwtDecode } from 'jwt-decode';
 
 export default function CreatePost() {
   const imageInputRef = useRef();
@@ -25,18 +26,30 @@ export default function CreatePost() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // Prepare form data
+    // Decode user id from token if available
+    let userid = '';
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        userid = decoded.id || decoded._id || '';
+      } catch (err) {
+        console.error('Failed to decode token:', err);
+      }
+    }
     const form = new FormData();
-    form.append('name', formData.title);
-    form.append('tags', formData.summary);
-    form.append('email', formData.author);
+    form.append('title', formData.title);
+    form.append('summary', formData.summary);
+    form.append('content', formData.content);
+    form.append('author', formData.author);
+    form.append('userid', userid);
     if (imageInputRef.current && imageInputRef.current.files[0]) {
       form.append('file', imageInputRef.current.files[0]);
     }
     fetch(`${BACKEND_URL}/api/v1/upload/image`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Authorization': `Bearer ${token}`,
       },
       body: form,
       credentials: 'include',
@@ -71,7 +84,9 @@ export default function CreatePost() {
               placeholder="Enter post title"
               required
             />
-            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Title</label>
+            <label className={`absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
+              ${formData.title ? '-top-5 text-xs text-purple-700' : 'peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700'}
+              bg-white px-1 rounded pointer-events-none`}>Title</label>
           </div>
           <div className="relative">
             <input
@@ -83,7 +98,9 @@ export default function CreatePost() {
               placeholder="Short summary"
               required
             />
-            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Summary</label>
+            <label className={`absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
+              ${formData.summary ? '-top-5 text-xs text-purple-700' : 'peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700'}
+              bg-white px-1 rounded pointer-events-none`}>Summary</label>
           </div>
           <div className="relative">
             <textarea
@@ -94,7 +111,9 @@ export default function CreatePost() {
               placeholder="Write your post content here..."
               required
             />
-            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Content</label>
+            <label className={`absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
+              ${formData.content ? '-top-5 text-xs text-purple-700' : 'peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700'}
+              bg-white px-1 rounded pointer-events-none`}>Content</label>
           </div>
           <div className="flex gap-4">
             <div className="flex-1 relative">
@@ -107,7 +126,9 @@ export default function CreatePost() {
                 placeholder="Author name"
                 required
               />
-              <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Author</label>
+              <label className={`absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
+                ${formData.author ? '-top-5 text-xs text-purple-700' : 'peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700'}
+                bg-white px-1 rounded pointer-events-none`}>Author</label>
             </div>
             <div className="flex-1 relative">
               <input
@@ -118,7 +139,9 @@ export default function CreatePost() {
                 className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
                 required
               />
-              <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Date</label>
+              <label className={`absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
+                ${formData.date ? '-top-5 text-xs text-purple-700' : 'peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700'}
+                bg-white px-1 rounded pointer-events-none`}>Date</label>
             </div>
           </div>
           <div>

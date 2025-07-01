@@ -61,7 +61,7 @@ export default function Post() {
             <ul className="space-y-4">
               {comments.map((comment, idx) => (
                 <li key={comment._id || idx} className="border-b border-purple-100 pb-2">
-                  <div className="text-sm text-gray-700 font-semibold mb-1">{comment.user}</div>
+                  <div className="text-sm text-gray-700 font-semibold mb-1">{comment.user?.name || 'Unknown User'}</div>
                   <div className="text-gray-800">{comment.body}</div>
                 </li>
               ))}

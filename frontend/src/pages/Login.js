@@ -56,7 +56,9 @@ export default function Login() {
               required
               disabled={loading}
             />
-            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Email</label>
+            <label className={`absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
+              ${formData.email ? '-top-5 text-xs text-purple-700' : 'peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700'}
+              bg-white px-1 rounded pointer-events-none`}>Email</label>
           </div>
           <div className="relative">
             <input
@@ -69,7 +71,9 @@ export default function Login() {
               required
               disabled={loading}
             />
-            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700 bg-white px-1 rounded pointer-events-none">Password</label>
+            <label className={`absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
+              ${formData.password ? '-top-5 text-xs text-purple-700' : 'peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700'}
+              bg-white px-1 rounded pointer-events-none`}>Password</label>
           </div>
           {error && <div className="text-red-500 text-center">{error}</div>}
           <button
