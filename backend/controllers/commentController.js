@@ -3,7 +3,6 @@ const File = require("../models/file"); // Import your post/file model
 const User = require("../models/user");
 const Comment = require("../models/commentModel");
 
-// business Logic
 exports.createComment = async (req, res) => {
     try {
         // fetch data from request body 

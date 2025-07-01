@@ -131,7 +131,12 @@ exports.getPostById = async (req, res) => {
     const { id } = req.params;
     const post = await File.findById(id).populate({
       path: 'comments',
-      model: 'Comment'
+      model: 'Comment',
+      populate: {
+        path: 'user',
+        model: 'user',
+        select: 'name',
+      }
     });
     if (!post) {
       return res.status(404).json({ success: false, message: 'Post not found' });
