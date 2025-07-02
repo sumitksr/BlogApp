@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { BACKEND_URL } from '../utils/config';
 import { useAuth } from '../context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 export default function Post() {
   const { id } = useParams();
@@ -12,6 +13,11 @@ export default function Post() {
   const [commentText, setCommentText] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const { isLoggedIn } = useAuth();
+
+  // Like state hooks (must be at top level)
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const [likeLoading, setLikeLoading] = useState(false);
 
   // Get user id from token
   let userId = '';
@@ -31,6 +37,13 @@ export default function Post() {
       .then(data => {
         if (data.success) {
           setPost(data.post);
+          // Set like state based on fetched post
+          const likes = data.post.likes || [];
+          const liked = Array.isArray(likes)
+            ? likes.some(like => (like.user ? like.user.toString() : like.toString()) === userId)
+            : false;
+          setIsLiked(liked);
+          setLikeCount(Array.isArray(likes) ? likes.length : (typeof likes === 'number' ? likes : 0));
         } else {
           setError(data.message || 'Post not found');
         }
@@ -40,37 +53,78 @@ export default function Post() {
         setError('Failed to load post');
         setLoading(false);
       });
+    // eslint-disable-next-line
   }, [id]);
+
+  const handleLike = async () => {
+    if (!userId || likeLoading || !post) return;
+    setLikeLoading(true);
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/v1/upload/like`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ post: post._id, user: userId }),
+      });
+      const data = await res.json();
+      if (data.post && typeof data.liked === 'boolean') {
+        setIsLiked(data.liked);
+        setLikeCount(Array.isArray(data.post.likes) ? data.post.likes.length : likeCount);
+      }
+    } catch (err) {}
+    setLikeLoading(false);
+  };
 
   if (loading) return <div className="text-center mt-10 text-xl">Loading...</div>;
   if (error || !post) return <div className="text-center text-red-500 mt-10 text-xl font-semibold">{error || 'Post not found'}</div>;
 
-  const { title, content, author, date, image, comments = [] } = post;
+  const { title, content, author, date, imageUrl, summary, comments = [] } = post;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 py-10 px-2 flex justify-center items-start">
       <div className="w-full max-w-3xl mx-auto bg-white/90 rounded-2xl shadow-2xl p-8 animate-fade-in-up">
         <h1 className="text-4xl md:text-4xl font-extrabold text-center text-purple-700 mb-6 drop-shadow-lg">{title}</h1>
-        {image && (
-          <div className="flex justify-center mb-6">
-            <img
-              src={image}
-              alt={title}
-              className="w-full max-w-xl h-72 object-cover rounded-xl shadow-lg border border-purple-100"
-            />
-          </div>
-        )}
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
           <span className="font-semibold text-gray-700 text-base">
             By <span className="text-purple-700">{author}</span>
           </span>
           <span className="text-gray-500 text-sm mt-1 md:mt-0">{date}</span>
         </div>
+      
+        
+        
+        {imageUrl && (
+          <div className="flex justify-center mb-6">
+            <img
+              src={imageUrl}
+              alt={title}
+              className="w-full max-w-xl h-72 object-cover rounded-xl shadow-lg border border-purple-100"
+            />
+          </div>
+        )}
         <hr className="mb-6 border-purple-200" />
         <div className="text-gray-800 text-lg leading-relaxed whitespace-pre-line mb-10">
           {content}
         </div>
-        {/* Comments Section */}
-        <div className="mt-10 bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl shadow-lg p-6">
+        <div className="text-gray-600 text-base mb-4 italic">{summary}</div>
+        <div className="flex items-center gap-2 mb-6">
+          <button
+            onClick={handleLike}
+            disabled={likeLoading || !userId}
+            className="focus:outline-none"
+            aria-label={isLiked ? 'Unlike' : 'Like'}
+          >
+            {isLiked ? (
+              <FaHeart className="text-red-500 text-2xl" title="Liked" />
+            ) : (
+              <FaRegHeart className="text-gray-400 text-2xl" title="Like" />
+            )}
+          </button>
+          <span className="text-base text-gray-700 font-semibold">{likeCount}</span>
+        </div>
+        <div className="mt-10 bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-2xl font-bold text-purple-700 mb-4 flex items-center gap-2">
             <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 8h2a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2h2m10-4H7a2 2 0 00-2 2v0a2 2 0 002 2h10a2 2 0 002-2v0a2 2 0 00-2-2z" /></svg>
             Comments
@@ -81,7 +135,6 @@ export default function Post() {
             <ul className="space-y-4">
               {comments.map((comment, idx) => (
                 <li key={comment._id || idx} className="flex items-start gap-3 border-b border-purple-100 pb-3">
-                  {/* Avatar with initials */}
                   <div className="flex-shrink-0 w-10 h-10 rounded-full bg-purple-200 flex items-center justify-center text-lg font-bold text-purple-700 shadow">
                     {comment.user?.name ? comment.user.name.split(' ').map(n => n[0]).join('').toUpperCase() : '?'}
                   </div>
@@ -93,7 +146,6 @@ export default function Post() {
               ))}
             </ul>
           )}
-          {/* Comment Form */}
           {isLoggedIn && (
             <form
               className="mt-8 flex flex-col sm:flex-row gap-2 items-end border-t border-purple-100 pt-6"

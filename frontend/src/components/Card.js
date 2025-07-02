@@ -1,10 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { jwtDecode } from 'jwt-decode';
+import { BACKEND_URL } from '../utils/config';
 
 export default function Card({ post }) {
   console.log('⭐ Card got post:', post);
 
-  const { _id, title, summary, content, author, time, imageUrl } = post;
+  const { _id, title, summary, content, author, time, imageUrl, likes = [] } = post;
+
+  // Get current user id from token
+  let userId = '';
+  const token = localStorage.getItem('token');
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      userId = decoded.id || decoded._id || '';
+    } catch (err) {
+      userId = '';
+    }
+  }
+
+  // likes is an array of Like objects, each with a user field
+  const initialIsLiked = Array.isArray(likes)
+    ? likes.some(like => (like.user ? like.user.toString() : like.toString()) === userId)
+    : false;
+  const initialLikeCount = Array.isArray(likes) ? likes.length : (typeof likes === 'number' ? likes : 0);
+
+  const [isLiked, setIsLiked] = useState(initialIsLiked);
+  const [likeCount, setLikeCount] = useState(initialLikeCount);
+  const [loading, setLoading] = useState(false);
+
+  const handleLike = async () => {
+    if (!userId || loading) return;
+    setLoading(true);
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/v1/upload/like`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ post: _id, user: userId }),
+      });
+      const data = await res.json();
+      if (data.post && typeof data.liked === 'boolean') {
+        setIsLiked(data.liked);
+        setLikeCount(Array.isArray(data.post.likes) ? data.post.likes.length : likeCount);
+      }
+    } catch (err) {
+      // Optionally show an error
+    }
+    setLoading(false);
+  };
 
   return (
     <div className="relative bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-1 mb-4 group transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-lg border-2 border-transparent hover:border-purple-300">
@@ -32,6 +80,22 @@ export default function Card({ post }) {
           </Link>
           <div className="text-gray-600 text-sm mb-2 line-clamp-2">{summary}</div>
           <div className="text-gray-700 text-sm flex-1 line-clamp-3">{content}</div>
+          {/* Like section */}
+          <div className="flex items-center gap-2 mt-4">
+            <button
+              onClick={handleLike}
+              disabled={loading || !userId}
+              className="focus:outline-none"
+              aria-label={isLiked ? 'Unlike' : 'Like'}
+            >
+              {isLiked ? (
+                <FaHeart className="text-red-500 text-xl" title="Liked" />
+              ) : (
+                <FaRegHeart className="text-gray-400 text-xl" title="Like" />
+              )}
+            </button>
+            <span className="text-sm text-gray-700 font-semibold">{likeCount}</span>
+          </div>
         </div>
       </div>
     </div>
