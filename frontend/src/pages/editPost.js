@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { BACKEND_URL } from '../utils/config';
 import { jwtDecode } from 'jwt-decode';
 
 export default function EditPost() {
@@ -20,7 +19,7 @@ export default function EditPost() {
   }
 
   useEffect(() => {
-    fetch(`${BACKEND_URL}/api/v1/upload/posts`)
+    fetch(`https://blogapp-6vji.onrender.com/api/v1/upload/posts`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -43,7 +42,7 @@ export default function EditPost() {
 
   function handleDelete(id) {
     if (window.confirm('Are you sure you want to delete this post?')) {
-      fetch(`${BACKEND_URL}/api/v1/upload/posts/${id}`, {
+      fetch(`https://blogapp-6vji.onrender.com/api/v1/upload/posts/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,

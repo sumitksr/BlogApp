@@ -81,12 +81,14 @@ export default function CreatePost() {
               value={formData.title}
               onChange={handleChange}
               className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
-              placeholder="Enter post title"
+              placeholder=" "
               required
             />
-            <label className={`absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
-              ${formData.title ? '-top-5 text-xs text-purple-700' : 'peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700'}
-              bg-white px-1 rounded pointer-events-none`}>Title</label>
+            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
+              peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
+              peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700
+              peer-not-placeholder-shown:-top-5 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-purple-700
+              bg-white px-1 rounded pointer-events-none">Title</label>
           </div>
           <div className="relative">
             <input
@@ -95,12 +97,14 @@ export default function CreatePost() {
               value={formData.summary}
               onChange={handleChange}
               className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
-              placeholder="Short summary"
+              placeholder=" "
               required
             />
-            <label className={`absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
-              ${formData.summary ? '-top-5 text-xs text-purple-700' : 'peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700'}
-              bg-white px-1 rounded pointer-events-none`}>Summary</label>
+            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
+              peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
+              peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700
+              peer-not-placeholder-shown:-top-5 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-purple-700
+              bg-white px-1 rounded pointer-events-none">Summary</label>
           </div>
           <div className="relative">
             <textarea
@@ -108,12 +112,14 @@ export default function CreatePost() {
               value={formData.content}
               onChange={handleChange}
               className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 min-h-[120px] placeholder-transparent"
-              placeholder="Write your post content here..."
+              placeholder=" "
               required
             />
-            <label className={`absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
-              ${formData.content ? '-top-5 text-xs text-purple-700' : 'peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700'}
-              bg-white px-1 rounded pointer-events-none`}>Content</label>
+            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
+              peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
+              peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700
+              peer-not-placeholder-shown:-top-5 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-purple-700
+              bg-white px-1 rounded pointer-events-none">Content</label>
           </div>
           <div className="flex gap-4">
             <div className="flex-1 relative">
@@ -123,12 +129,14 @@ export default function CreatePost() {
                 value={formData.author}
                 onChange={handleChange}
                 className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
-                placeholder="Author name"
+                placeholder=" "
                 required
               />
-              <label className={`absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
-                ${formData.author ? '-top-5 text-xs text-purple-700' : 'peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700'}
-                bg-white px-1 rounded pointer-events-none`}>Author</label>
+              <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
+                peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
+                peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700
+                peer-not-placeholder-shown:-top-5 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-purple-700
+                bg-white px-1 rounded pointer-events-none">Author</label>
             </div>
             <div className="flex-1 relative">
               <input
@@ -137,11 +145,14 @@ export default function CreatePost() {
                 value={formData.date}
                 onChange={handleChange}
                 className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
+                placeholder=" "
                 required
               />
-              <label className={`absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
-                ${formData.date ? '-top-5 text-xs text-purple-700' : 'peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700'}
-                bg-white px-1 rounded pointer-events-none`}>Date</label>
+              <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
+                peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
+                peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700
+                peer-not-placeholder-shown:-top-5 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-purple-700
+                bg-white px-1 rounded pointer-events-none">Date</label>
             </div>
           </div>
           <div>

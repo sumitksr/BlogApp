@@ -8,7 +8,7 @@ export default function Home() {
   async function fetchPosts() {
     try { 
       setLoading(true);
-      const response = await fetch(`http://localhost:8000/api/v1/upload/posts`);
+      const response = await fetch(`https://blogapp-6vji.onrender.com/api/v1/upload/posts`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
