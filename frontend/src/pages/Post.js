@@ -32,7 +32,7 @@ export default function Post() {
   }
 
   useEffect(() => {
-    fetch(`https://blogapp-6vji.onrender.com/api/v1/upload/posts/${id}`)
+    fetch(`${BACKEND_URL}/api/v1/upload/posts/${id}`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {

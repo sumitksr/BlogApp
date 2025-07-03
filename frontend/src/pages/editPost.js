@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import { BACKEND_URL } from '../utils/config';
 
 export default function EditPost() {
   const [userPosts, setUserPosts] = useState([]);
@@ -19,7 +20,7 @@ export default function EditPost() {
   }
 
   useEffect(() => {
-    fetch(`https://blogapp-6vji.onrender.com/api/v1/upload/posts`)
+    fetch(`${BACKEND_URL}/api/v1/upload/posts`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {

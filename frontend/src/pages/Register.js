@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BACKEND_URL } from '../utils/config';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function Register() {
     }
     setLoading(true);
     try {
-      const res = await fetch(`https://blogapp-6vji.onrender.com/api/v1/upload/signup`, {
+      const res = await fetch(`${BACKEND_URL}/api/v1/upload/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
+import { BACKEND_URL } from '../utils/config';
 
 export default function Login() {
   const { login } = useAuth();
@@ -19,7 +20,7 @@ export default function Login() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`https://blogapp-6vji.onrender.com/api/v1/upload/login`, {
+      const res = await fetch(`${BACKEND_URL}/api/v1/upload/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

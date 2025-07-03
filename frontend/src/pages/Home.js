@@ -1,6 +1,6 @@
 import React, { use, useEffect, useState } from 'react';
 import Card from '../components/Card.js';
-
+import { BACKEND_URL } from '../utils/config';
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -8,7 +8,7 @@ export default function Home() {
   async function fetchPosts() {
     try { 
       setLoading(true);
-      const response = await fetch(`https://blogapp-6vji.onrender.com/api/v1/upload/posts`);
+      const response = await fetch(`${BACKEND_URL}/api/v1/upload/posts`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
