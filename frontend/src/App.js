@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import NotFound from './pages/NotFound';
 import RequireAuth from './components/RequireAuth';
 import "./index.css";
+import ChatBox from './components/chatBox';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path ="*" element={<NotFound/>}/>
       </Routes>
       <Footer/>
+      <ChatBox />
     </>
   );
 }

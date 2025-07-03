@@ -1,6 +1,8 @@
 import React, { use, useEffect, useState } from 'react';
 import Card from '../components/Card.js';
 import { BACKEND_URL } from '../utils/config';
+import ChatBox from '../components/chatBox';
+
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -61,6 +63,7 @@ useEffect(() => {
           animation: fade-in-up 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
         }
       `}</style>
+      <ChatBox />
     </div>
   );
 }
