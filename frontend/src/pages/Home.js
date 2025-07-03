@@ -31,7 +31,7 @@ useEffect(() => {
       {/* Hero Section */}
       <div className="max-w-6xl mx-auto mb-10 px-4">
         <div className="bg-gradient-to-r from-purple-400/80 to-blue-400/80 rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center text-center animate-fade-in-up">
-          <h1 className="text-5xl font-extrabold text-white mb-4 drop-shadow-lg tracking-tight animate-fade-in-up">Welcome to File Upload Blog</h1>
+          <h1 className="text-5xl font-extrabold text-white mb-4 drop-shadow-lg tracking-tight animate-fade-in-up">Welcome to Blogging Platform</h1>
           <p className="text-lg text-white/90 mb-6 animate-fade-in-up">Share your stories, ideas, and images with the world. Create, edit, and explore beautiful posts!</p>
           <a href="/create" className="inline-block px-6 py-3 bg-white/90 text-purple-700 font-bold rounded-lg shadow-md hover:bg-purple-100 transition-all duration-300 animate-bounce">Create Your First Post</a>
         </div>
