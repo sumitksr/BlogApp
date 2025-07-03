@@ -1,6 +1,6 @@
-# 🛠️ Backend – File Upload Blog Platform
+# 🛠️ Backend – Blog Platform
 
-Welcome to the **backend** of the File Upload Blog Platform!  
+Welcome to the **backend** of the Blog Platform!  
 This is a Node.js + Express API with MongoDB, Cloudinary for image uploads, and an integrated AI chatbot powered by Groq. 🤖
 
 ---
@@ -54,10 +54,10 @@ This is a Node.js + Express API with MongoDB, Cloudinary for image uploads, and 
 ```
 backend/
 ├── config/                # Configuration files (Cloudinary, database)
-├── controllers/           # Route handler logic (login, file upload, comments, likes, chatbot)
+├── controllers/           # Route handler logic (login, blog posts, comments, likes, chatbot)
 ├── middlewares/           # Express middlewares (e.g., authentication)
 ├── models/                # Mongoose models (User, Post, Comment, Like, File)
-├── routes/                # Express route definitions (fileUpload.js)
+├── routes/                # Express route definitions (main blog and user routes, e.g., fileUpload.js)
 ├── files/                 # (Optional) Uploaded files (if not using cloud storage)
 ├── index.js               # Main server entry point
 ├── package.json           # Project dependencies and scripts
@@ -68,10 +68,10 @@ backend/
 ```
 
 - **config/**: Configuration for Cloudinary and database connection.
-- **controllers/**: Functions that handle each route's logic (login, signup, file upload, comments, likes, chatbot, etc.).
+- **controllers/**: Functions that handle each route's logic (login, signup, blog posts, comments, likes, chatbot, etc.).
 - **middlewares/**: Express middleware functions (e.g., authentication checks).
-- **models/**: Mongoose schemas/models for MongoDB collections (User, File, Comment, Like, etc.).
-- **routes/**: Route definitions for the API (fileUpload.js contains all main routes).
+- **models/**: Mongoose schemas/models for MongoDB collections (User, Post, Comment, Like, etc.).
+- **routes/**: Route definitions for the API (main blog and user routes, e.g., fileUpload.js).
 - **files/**: (Optional) Local storage for uploaded files (if not using cloud storage).
 - **index.js**: Entry point for the Express server.
 - **package.json**: Lists dependencies and scripts.
@@ -79,7 +79,6 @@ backend/
 - **.gitignore**: Specifies files/folders to ignore in git.
 
 ---
-
 
 ## 🤖 AI Chatbot
 

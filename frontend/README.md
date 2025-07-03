@@ -1,6 +1,6 @@
-# 🎨 Frontend – File Upload Blog Platform
+# 🎨 Frontend – Blog Platform
 
-Welcome to the **frontend** of the File Upload Blog Platform!  
+Welcome to the **frontend** of the Blog Platform!  
 A modern React app with Tailwind CSS, beautiful UI, and a floating AI chatbot on every page! 🤖✨
 
 ---
@@ -66,8 +66,6 @@ frontend/
 - **postcss.config.js**: PostCSS setup for Tailwind.
 
 ---
-
-
 
 ## ✨ Features
 

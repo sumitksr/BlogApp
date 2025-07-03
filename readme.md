@@ -1,7 +1,7 @@
-# 🚀 File Upload Blog Platform
+# 🚀 Blog Platform
 
-Welcome to the **File Upload Blog Platform**!  
-Create, share, and explore posts with images, comments, likes, and even an integrated AI chatbot! 🤖✨
+Welcome to the **Blog Platform**!  
+Create, share, and explore blog posts with images, comments, likes, and even an integrated AI chatbot! 🤖✨
 
 ---
 
@@ -15,7 +15,7 @@ Create, share, and explore posts with images, comments, likes, and even an integ
 ## 📦 Project Structure
 
 ```
-file-upload/
+blog-platform/
   ├── backend/   # Express.js API, MongoDB, Cloudinary, AI Chatbot
   ├── frontend/  # React.js, Tailwind CSS, Modern UI
   └── readme.md  # (this file)
@@ -27,8 +27,8 @@ file-upload/
 
 1. **Clone the repo:**
    ```bash
-   git clone <your-repo-url>
-   cd file-upload
+   git clone https://github.com/sumitksr/BlogApp.git
+   cd blog-platform
    ```
 
 2. **Start the backend:**
