@@ -85,10 +85,6 @@ frontend/
 
 ---
 
-## 📝 License
 
-MIT
-
----
 
 Enjoy blogging and chatting with AI! 🚀
