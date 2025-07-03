@@ -51,16 +51,12 @@ export default function Login() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
+              className={`peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent ${formData.email ? 'has-value' : ''}`}
               placeholder=" "
               required
               disabled={loading}
             />
-            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
-              peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
-              peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700
-              peer-not-placeholder-shown:-top-5 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-purple-700
-              bg-white px-1 rounded pointer-events-none">Email</label>
+            <label className="floating-label">Email</label>
           </div>
           <div className="relative">
             <input
@@ -68,16 +64,12 @@ export default function Login() {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
+              className={`peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent ${formData.password ? 'has-value' : ''}`}
               placeholder=" "
               required
               disabled={loading}
             />
-            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
-              peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
-              peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700
-              peer-not-placeholder-shown:-top-5 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-purple-700
-              bg-white px-1 rounded pointer-events-none">Password</label>
+            <label className="floating-label">Password</label>
           </div>
           {error && <div className="text-red-500 text-center">{error}</div>}
           <button
@@ -101,6 +93,25 @@ export default function Login() {
         }
         .animate-fade-in-up {
           animation: fade-in-up 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+        }
+        .floating-label {
+          position: absolute;
+          left: 1rem;
+          top: 0.5rem;
+          font-size: 1rem;
+          font-weight: 600;
+          color: #4b5563;
+          background: white;
+          padding: 0 0.25rem;
+          border-radius: 0.25rem;
+          pointer-events: none;
+          transition: all 0.2s;
+        }
+        input:focus + .floating-label,
+        input.has-value + .floating-label {
+          top: -1.25rem;
+          font-size: 0.75rem;
+          color: #7c3aed;
         }
       `}</style>
     </div>

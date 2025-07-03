@@ -80,15 +80,11 @@ export default function CreatePost() {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
+              className={`peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent ${formData.title ? 'has-value' : ''}`}
               placeholder=" "
               required
             />
-            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
-              peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
-              peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700
-              peer-not-placeholder-shown:-top-5 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-purple-700
-              bg-white px-1 rounded pointer-events-none">Title</label>
+            <label className="floating-label">Title</label>
           </div>
           <div className="relative">
             <input
@@ -96,30 +92,22 @@ export default function CreatePost() {
               name="summary"
               value={formData.summary}
               onChange={handleChange}
-              className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
+              className={`peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent ${formData.summary ? 'has-value' : ''}`}
               placeholder=" "
               required
             />
-            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
-              peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
-              peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700
-              peer-not-placeholder-shown:-top-5 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-purple-700
-              bg-white px-1 rounded pointer-events-none">Summary</label>
+            <label className="floating-label">Summary</label>
           </div>
           <div className="relative">
             <textarea
               name="content"
               value={formData.content}
               onChange={handleChange}
-              className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 min-h-[120px] placeholder-transparent"
+              className={`peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 min-h-[120px] placeholder-transparent ${formData.content ? 'has-value' : ''}`}
               placeholder=" "
               required
             />
-            <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
-              peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
-              peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700
-              peer-not-placeholder-shown:-top-5 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-purple-700
-              bg-white px-1 rounded pointer-events-none">Content</label>
+            <label className="floating-label">Content</label>
           </div>
           <div className="flex gap-4">
             <div className="flex-1 relative">
@@ -128,15 +116,11 @@ export default function CreatePost() {
                 name="author"
                 value={formData.author}
                 onChange={handleChange}
-                className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
+                className={`peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent ${formData.author ? 'has-value' : ''}`}
                 placeholder=" "
                 required
               />
-              <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
-                peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
-                peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700
-                peer-not-placeholder-shown:-top-5 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-purple-700
-                bg-white px-1 rounded pointer-events-none">Author</label>
+              <label className="floating-label">Author</label>
             </div>
             <div className="flex-1 relative">
               <input
@@ -144,15 +128,11 @@ export default function CreatePost() {
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent"
+                className={`peer w-full px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-transparent ${formData.date ? 'has-value' : ''}`}
                 placeholder=" "
                 required
               />
-              <label className="absolute left-4 top-2 text-sm font-semibold text-gray-700 mb-1 transition-all
-                peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
-                peer-focus:-top-5 peer-focus:text-xs peer-focus:text-purple-700
-                peer-not-placeholder-shown:-top-5 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-purple-700
-                bg-white px-1 rounded pointer-events-none">Date</label>
+              <label className="floating-label">Date</label>
             </div>
           </div>
           <div>
@@ -178,6 +158,27 @@ export default function CreatePost() {
         }
         .animate-fade-in-up {
           animation: fade-in-up 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+        }
+        .floating-label {
+          position: absolute;
+          left: 1rem;
+          top: 0.5rem;
+          font-size: 1rem;
+          font-weight: 600;
+          color: #4b5563;
+          background: white;
+          padding: 0 0.25rem;
+          border-radius: 0.25rem;
+          pointer-events: none;
+          transition: all 0.2s;
+        }
+        input:focus + .floating-label,
+        input.has-value + .floating-label,
+        textarea:focus + .floating-label,
+        textarea.has-value + .floating-label {
+          top: -1.25rem;
+          font-size: 0.75rem;
+          color: #7c3aed;
         }
       `}</style>
     </div>
