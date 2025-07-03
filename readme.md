@@ -76,4 +76,4 @@ blog-platform/
 
 ---
 
-Happy blogging! 🚀 
+> Happy blogging! 🚀 
