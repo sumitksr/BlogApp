@@ -7,11 +7,14 @@ const fileUpload = require('express-fileupload');
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-// ✅ Enable CORS to allow requests from your React frontend
+
+const cors = require("cors");
+
 app.use(cors({
-    origin: 'http://localhost:3000', // Allow your frontend dev server
-    credentials: true, // Optional: if you're using cookies or auth headers
+  origin: ["http://localhost:3000", "https://blogapp-sumitksr.vercel.app"], // Allow your frontend dev server
+  credentials: true,// Optional: if you're using cookies or auth headers
 }));
+
 
 // Middleware
 app.use(express.json());
