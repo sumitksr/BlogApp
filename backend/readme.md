@@ -7,7 +7,7 @@ This is a Node.js + Express API with MongoDB, Cloudinary for image uploads, and 
 
 ## 🚀 Live Backend
 
-- [https://blogapp-6vji.onrender.com](https://blogapp-6vji.onrender.com)
+- [https://blogapp-yakt.onrender.com](https://blogapp-yakt.onrender.com)
 
 ---
 
