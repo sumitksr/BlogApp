@@ -7,11 +7,20 @@ const fileUpload = require('express-fileupload');
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://blogapp-sumitksr.vercel.app'
+];
 
 app.use(cors({
-  origin: ["http://localhost:3000", "https://blogapp-sumitksr.vercel.app"], // Allow your frontend dev server
-  credentials: true,// Optional: if you're using cookies or auth headers
+  origin: allowedOrigins,
+  credentials: true
+}));
+
+// ✅ Handle preflight requests (OPTIONS)
+app.options('*', cors({
+  origin: allowedOrigins,
+  credentials: true
 }));
 
 
