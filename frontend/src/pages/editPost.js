@@ -43,7 +43,7 @@ export default function EditPost() {
 
   function handleDelete(id) {
     if (window.confirm('Are you sure you want to delete this post?')) {
-      fetch(`${BACKEND_URL}/api/v1/upload/posts/${id}`, {
+      fetch(`https://blogapp-yakt.onrender.com/api/v1/upload/posts/delete/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
