@@ -7,58 +7,51 @@ const fileUpload = require('express-fileupload');
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-// Allowed origins for CORS
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://blogapp-sumitksr.vercel.app'
-];
-
-// CORS config
-const corsOptions = {
-  origin: allowedOrigins,
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-};
-
-// Apply CORS globally
-app.use(cors(corsOptions));
-
-// Handle preflight OPTIONS request
-app.options('*', cors(corsOptions));
-
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-
-// File upload config
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://blogapp-sumitksr.vercel.app'
+  ],
+  credentials: true
+}));
 app.use(fileUpload({
   useTempFiles: true,
   tempFileDir: '/tmp/'
 }));
 
-// Cloudinary and MongoDB setup
-const { cloudinaryConnect } = require('./config/cloudinary');
-cloudinaryConnect();
-
+// Import DB connection
 const { connect } = require('./config/database');
 connect();
+
+// Cloudinary connection
+const { cloudinaryConnect } = require('./config/cloudinary');
+cloudinaryConnect();
 
 // Routes
 const userRoutes = require('./routes/fileUpload');
 app.use('/api/v1/upload', userRoutes);
 
-// Health-check
+// Health check and default route
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', time: new Date().toISOString() });
 });
-
-// Root route
 app.get('/', (req, res) => {
   res.send('<h1>File Upload Service Running</h1>');
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`✅ Server is running on port ${PORT} - ${new Date().toISOString()}`);
+  console.log(`Server running on port ${PORT}`);
+});
+
+// Error handling for unhandled rejections and uncaught exceptions
+process.on('unhandledRejection', (err) => {
+  console.error('Unhandled Rejection:', err);
+});
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
 });
