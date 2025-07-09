@@ -43,7 +43,7 @@ export default function EditPost() {
 
   function handleDelete(id) {
     if (window.confirm('Are you sure you want to delete this post?')) {
-      fetch(`https://blogapp-6vji.onrender.com/api/v1/upload/posts/${id}`, {
+      fetch(`${BACKEND_URL}/api/v1/upload/posts/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
