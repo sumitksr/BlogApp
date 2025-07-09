@@ -7,48 +7,58 @@ const fileUpload = require('express-fileupload');
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-// ↑–– your two allowed origins
+// Allowed origins for CORS
 const allowedOrigins = [
   'http://localhost:3000',
   'https://blogapp-sumitksr.vercel.app'
 ];
 
-// ✅ Globally enable CORS (includes preflight)
-app.use(cors({
+// CORS config
+const corsOptions = {
   origin: allowedOrigins,
-  credentials: true
-}));
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
 
-// Built‑in express middleware
+// Apply CORS globally
+app.use(cors(corsOptions));
+
+// Handle preflight OPTIONS request
+app.options('*', cors(corsOptions));
+
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
 
-// File‑upload middleware
+// File upload config
 app.use(fileUpload({
   useTempFiles: true,
   tempFileDir: '/tmp/'
 }));
 
-// Cloudinary setup
+// Cloudinary and MongoDB setup
 const { cloudinaryConnect } = require('./config/cloudinary');
 cloudinaryConnect();
 
-// MongoDB setup
 const { connect } = require('./config/database');
 connect();
 
-// Mount your routes
-const uploadRoutes = require('./routes/fileUpload');
-console.log('Registering route: /api/v1/upload');
-app.use('/api/v1/upload', uploadRoutes);
+// Routes
+const userRoutes = require('./routes/fileUpload');
+app.use('/api/v1/upload', userRoutes);
 
-// A simple root endpoint
-console.log('Registering route: /');
-app.get('/', (req, res) => {
-  res.send('<h1>File Upload Service</h1>');
+// Health-check
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', time: new Date().toISOString() });
 });
 
-// Start listening
+// Root route
+app.get('/', (req, res) => {
+  res.send('<h1>File Upload Service Running</h1>');
+});
+
+// Start server
 app.listen(PORT, () => {
-  console.log(`✅ Server is running on port ${PORT}`);
+  console.log(`✅ Server is running on port ${PORT} - ${new Date().toISOString()}`);
 });
