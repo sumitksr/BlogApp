@@ -8,7 +8,7 @@ Create, share, and explore blog posts with images, comments, likes, and even an 
 ## 🌐 Live Demo
 
 - **Frontend:** [https://blogapp-sumitksr.vercel.app/](https://blogapp-sumitksr.vercel.app/)
-- **Backend:** [https://blogapp-6vji.onrender.com](https://blogapp-6vji.onrender.com)
+- **Backend:** [https://blogapp-yakt.onrender.com](https://blogapp-yakt.onrender.com)
 
 ---
 
