@@ -18,7 +18,7 @@ router.post('/unlike', unlikePost)
 router.post('/comment', createComment);
 router.get('/allComments',getAllComments);
 
-router.delete('/posts/:id', deletePost);
+router.delete('/posts/delete/:id', deletePost);
 router.post('/ai', chatWithAI);
 
 module.exports = router;
