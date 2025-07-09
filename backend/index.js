@@ -10,12 +10,13 @@ const PORT = process.env.PORT || 8000;
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
+
+
+
+
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:5173',
-    'https://blogapp-sumitksr.vercel.app'
-  ],
+  origin: ["http://localhost:3000", "https://blogapp-sumitksr.vercel.app","http://blogapp-sumitksr.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 app.use(fileUpload({
