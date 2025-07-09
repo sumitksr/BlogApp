@@ -14,7 +14,7 @@ app.use(cors({
   origin: [
     'http://localhost:3000',
     'http://localhost:5173',
-    'http://blogapp-sumitksr.vercel.app'
+    'https://blogapp-sumitksr.vercel.app'
   ],
   credentials: true
 }));
