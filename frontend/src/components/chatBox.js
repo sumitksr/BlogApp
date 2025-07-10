@@ -59,7 +59,7 @@ export default function ChatBox() {
 
   return (
     <>
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-6 left-6 z-50">
         {open ? (
           <div className="w-80 bg-white rounded-xl shadow-2xl border border-purple-200 flex flex-col overflow-hidden animate-fade-in-up">
             <div className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-4 py-3 flex items-center justify-between">
