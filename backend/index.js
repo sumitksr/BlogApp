@@ -113,19 +113,7 @@ app.get('/', (req, res) => {
   res.send('<h1>File Upload Service Running</h1>'); 
 }); 
 
-// Keep server alive in production (prevents cold starts)
-if (process.env.NODE_ENV === 'production') {
-  const serverUrl = process.env.SERVER_URL || 'https://blogapp-yakt.onrender.com';
-  
-  setInterval(async () => {
-    try {
-      const response = await fetch(`${serverUrl}/health`);
-      console.log('Keep-alive ping:', response.status);
-    } catch (error) {
-      console.log('Keep-alive error:', error.message);
-    }
-  }, 14 * 60 * 1000); // Ping every 14 minutes
-}
+// Keep-alive removed as requested
 
 // Start server 
 app.listen(PORT, () => { 
@@ -140,3 +128,13 @@ process.on('unhandledRejection', (err) => {
 process.on('uncaughtException', (err) => { 
   console.error('Uncaught Exception:', err); 
 });
+ /// keeping the server alive  
+//   setInterval(async () => {
+//     try {
+//       const response = await fetch(`${serverUrl}/health`);
+//       console.log('Keep-alive ping:', response.status);
+//     } catch (error) {
+//       console.log('Keep-alive error:', error.message);
+//     }
+//   }, 14 * 60 * 1000); // Ping every 14 minutes
+// }
