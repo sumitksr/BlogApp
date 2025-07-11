@@ -1,140 +1,70 @@
-// const express = require('express');
-// require('dotenv').config();
-// const cors = require('cors');
-// const cookieParser = require('cookie-parser');
-// const fileUpload = require('express-fileupload');
+console.log('Loading express...');
+const express = require('express');
 
-// const app = express();
-// const PORT = process.env.PORT || 8000;
+console.log('Loading dotenv...');
+require('dotenv').config();
 
-// // Middleware
-// app.use(express.json());
-// app.use(cookieParser());
+console.log('Loading cors...');
+const cors = require('cors');
 
+console.log('Loading cookieParser...');
+const cookieParser = require('cookie-parser');
 
+console.log('Loading express-fileupload...');
+const fileUpload = require('express-fileupload');
 
+console.log('Creating app...');
+const app = express();
 
-// app.use(cors({
-//   origin: ["http://localhost:3000", "https://blogapp-sumitksr.vercel.app","http://blogapp-sumitksr.vercel.app"],
-//   methods: ["GET", "POST", "PUT", "DELETE"],
-//   credentials: true
-// }));
-// app.use(fileUpload({
-//   useTempFiles: true,
-//   tempFileDir: '/tmp/'
-// }));
-
-// // Import DB connection
-// const { connect } = require('./config/database');
-// connect();
-
-// // Cloudinary connection
-// const { cloudinaryConnect } = require('./config/cloudinary');
-// cloudinaryConnect();
-
-// // Routes
-// const userRoutes = require('./routes/fileUpload');
-// app.use('/api/v1/upload', userRoutes);
-
-// // Health check and default route
-// app.get('/health', (req, res) => {
-//   res.status(200).json({ status: 'ok', time: new Date().toISOString() });
-// });
-// app.get('/', (req, res) => {
-//   res.send('<h1>File Upload Service Running</h1>');
-// });
-
-// // Start server
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
-
-// // Error handling for unhandled rejections and uncaught exceptions
-// process.on('unhandledRejection', (err) => {
-//   console.error('Unhandled Rejection:', err);
-// });
-// process.on('uncaughtException', (err) => {
-//   console.error('Uncaught Exception:', err);
-// });
-
-
-
-const express = require('express'); 
-require('dotenv').config(); 
-const cors = require('cors'); 
-const cookieParser = require('cookie-parser'); 
-const fileUpload = require('express-fileupload'); 
-
-const app = express(); 
-const PORT = process.env.PORT || 8000; 
-
-// CORS MUST be the FIRST middleware - this is critical!
-app.use(cors({ 
-  origin: ["http://localhost:3000", "https://blogapp-sumitksr.vercel.app"], 
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+console.log('Setting up CORS...');
+app.use(cors({
+  origin: ["http://localhost:3000", "https://blogapp-sumitksr.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
-  optionsSuccessStatus: 200, // For legacy browser support
+  optionsSuccessStatus: 200,
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-})); 
+}));
 
-// Handle preflight requests
-app.options('*', cors());
+console.log('Setting up express.json...');
+app.use(express.json());
 
-// Other middleware AFTER CORS
-app.use(express.json()); 
-app.use(cookieParser()); 
-app.use(fileUpload({ 
-  useTempFiles: true, 
-  tempFileDir: '/tmp/' 
-})); 
+console.log('Setting up cookieParser...');
+app.use(cookieParser());
 
-// Import DB connection 
-const { connect } = require('./config/database'); 
-connect(); 
+console.log('Setting up fileUpload...');
+app.use(fileUpload({
+  useTempFiles: true,
+  tempFileDir: '/tmp/'
+}));
 
-// Cloudinary connection 
-const { cloudinaryConnect } = require('./config/cloudinary'); 
-cloudinaryConnect(); 
+console.log('Connecting to database...');
+const { connect } = require('./config/database');
+connect();
 
-// Routes 
-const userRoutes = require('./routes/fileUpload'); 
-app.use('/api/v1/upload', userRoutes); 
+console.log('Connecting to cloudinary...');
+const { cloudinaryConnect } = require('./config/cloudinary');
+cloudinaryConnect();
 
-// Health check and default route 
-app.get('/health', (req, res) => { 
-  res.status(200).json({ 
-    status: 'ok', 
+console.log('Loading routes...');
+const userRoutes = require('./routes/fileUpload');
+app.use('/api/v1/upload', userRoutes);
+
+console.log('Setting up health check...');
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
     time: new Date().toISOString(),
     uptime: process.uptime()
-  }); 
-}); 
-
-app.get('/', (req, res) => { 
-  res.send('<h1>File Upload Service Running</h1>'); 
-}); 
-
-// Keep-alive removed as requested
-
-// Start server 
-app.listen(PORT, () => { 
-  console.log(`Server running on port ${PORT}`); 
-}); 
-
-// Enhanced error handling
-process.on('unhandledRejection', (err) => { 
-  console.error('Unhandled Rejection:', err); 
-}); 
-
-process.on('uncaughtException', (err) => { 
-  console.error('Uncaught Exception:', err); 
+  });
 });
- /// keeping the server alive  
-//   setInterval(async () => {
-//     try {
-//       const response = await fetch(`${serverUrl}/health`);
-//       console.log('Keep-alive ping:', response.status);
-//     } catch (error) {
-//       console.log('Keep-alive error:', error.message);
-//     }
-//   }, 14 * 60 * 1000); // Ping every 14 minutes
-// }
+
+console.log('Setting up root route...');
+app.get('/', (req, res) => {
+  res.send('<h1>File Upload Service Running</h1>');
+});
+
+console.log('Starting server...');
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
