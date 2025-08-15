@@ -40,7 +40,7 @@ useEffect(() => {
         <h2 className="text-4xl font-extrabold text-center text-purple-700 mb-8 drop-shadow-lg animate-fade-in-up">Blog Posts</h2>
         <div className="bg-white/80 rounded-xl shadow-lg p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in-up">
           {loading ? (
-            <div className="col-span-full text-center text-gray-500">Loading...</div>
+            <div className="col-span-full text-center text-gray-500 font-bold text-xl">Please Wait As My backend is deployed on render and render has 50s cooldown time...</div>
           ) : error ? (
             <div className="col-span-full text-center text-red-500">{error}</div>
           ) : posts.length === 0 ? (
