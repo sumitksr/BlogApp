@@ -4,7 +4,7 @@ exports.auth = (req, res, next) => {
   try {
     const token = req.body.token || req.cookies.token || req.headers["authorization"];
     if (!token) {
-      return res.status(401).json({ message: "No token provided" });
+      return res.status(401).json({ message: "Login first!!" });
     }
     try {
       // If token is in "Bearer <token>" format

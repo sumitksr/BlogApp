@@ -33,8 +33,8 @@ const fileSchema = new mongoose.Schema({
         required: true
     },
     likes: [{
-  type: mongoose.Schema.Types.ObjectId,
-  ref: "Like"
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Like"
     }],
 
     comments: [{

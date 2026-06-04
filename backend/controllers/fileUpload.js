@@ -1,7 +1,8 @@
 const express = require("express");
 const File = require("../models/file");
 const cloudinary = require("cloudinary").v2;
-// loacal file ka hnadler
+
+// local file ka hnadler
 // local mtlb server pe file upload krna
 exports.localFileUpload = async (req, res) => {
   try {
@@ -72,7 +73,7 @@ exports.imageUpload = async (req, res) => {
         message: "Invalid file type. Only images are allowed.",
       });
     }
-
+    // here u should be first stroging it to local file then upload to cloudinary because cloudinary needs a file path to upload the file 
     // upload file to cloudinary
     const response = await uploadFileToCloudinary(file, "Blog", 90);
     console.log("Image uploaded to Cloudinary:", response);

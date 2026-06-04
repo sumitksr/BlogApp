@@ -5,7 +5,6 @@ import { jwtDecode } from 'jwt-decode';
 import { BACKEND_URL } from '../utils/config';
 
 export default function Card({ post }) {
-  console.log('⭐ Card got post:', post);
 
   const { _id, title, summary, content, author, time, imageUrl, likes = [] } = post;
 
