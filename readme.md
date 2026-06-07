@@ -23,6 +23,36 @@ blog-platform/
 
 ---
 
+
+## 🗺️ System Flow Diagram
+
+The following flowchart shows the complete workflow of the Blog Platform, including authentication, blog management, comments, likes, image uploads, and AI chatbot integration.
+
+<p align="center">
+  <img src="./blogapp.png" alt="Blog Platform Flow Diagram" width="100%">
+</p>
+
+### Flow Overview
+
+1. User accesses the React frontend.
+2. Authentication is handled through Login/Register pages.
+3. Authenticated users can:
+   - Create blog posts
+   - Upload images via Cloudinary
+   - Like and comment on posts
+   - Manage their own content
+4. Frontend communicates with the Express.js backend through REST APIs.
+5. Backend handles:
+   - Authentication & Authorization
+   - Blog CRUD operations
+   - Comments & Likes
+   - Cloudinary image storage
+   - AI Chatbot requests
+6. Data is stored in MongoDB.
+7. AI Chatbot responses are generated through the Gemini API.
+
+---
+
 ## 🛠️ How to Run Locally
 
 1. **Clone the repo:**
