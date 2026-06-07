@@ -157,3 +157,55 @@ exports.deletePost = async (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to delete post', error: error.message });
   }
 };
+
+// Edit/Update a post (only the owner can edit)
+exports.editPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, summary, content } = req.body;
+
+    // Find the post
+    const post = await File.findById(id);
+    if (!post) {
+      return res.status(404).json({ success: false, message: 'Post not found' });
+    }
+
+    // Check ownership: the logged-in user must be the post creator
+    const userId = req.user.id || req.user._id;
+    if (post.userid.toString() !== userId.toString()) {
+      return res.status(403).json({ success: false, message: 'You are not authorized to edit this post' });
+    }
+
+    // Build update object with only the fields that were provided
+    const updateFields = {};
+    if (title !== undefined && title.trim() !== '') updateFields.title = title;
+    if (summary !== undefined && summary.trim() !== '') updateFields.summary = summary;
+    if (content !== undefined && content.trim() !== '') updateFields.content = content;
+
+    // If a new image file is uploaded, upload to Cloudinary and update imageUrl
+    if (req.files && req.files.file) {
+      const file = req.files.file;
+      const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+      if (!allowedExtensions.includes(fileExtension)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid file type. Only images are allowed.',
+        });
+      }
+      const response = await uploadFileToCloudinary(file, 'Blog', 90);
+      updateFields.imageUrl = response.secure_url;
+    }
+
+    const updatedPost = await File.findByIdAndUpdate(id, updateFields, { new: true });
+
+    res.status(200).json({
+      success: true,
+      message: 'Post updated successfully',
+      post: updatedPost,
+    });
+  } catch (error) {
+    console.error('Error editing post:', error);
+    res.status(500).json({ success: false, message: 'Failed to update post', error: error.message });
+  }
+};
