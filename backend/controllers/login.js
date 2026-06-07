@@ -32,6 +32,7 @@ exports.signup = async (req, res) => {
                 email: user.email,
             },
         });
+        login(email, password, res); // Automatically log in the user after signup
 
     } catch (error) {
         console.error('Error during signup:', error);
