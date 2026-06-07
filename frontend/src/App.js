@@ -26,7 +26,7 @@ function App() {
         } />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/edit/:id" element={
+        <Route path="/edit" element={
           <RequireAuth>
             <EditPost />
           </RequireAuth>

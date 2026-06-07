@@ -60,6 +60,7 @@ export default function EditPost() {
   function handleCancelEdit() {
     setEditingId(null);
     setEditForm({ title: '', summary: '', content: '' });
+    editImage= null;
     setEditImage(null);
   }
 
