@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import Card from '../components/Card.js';
 import { BACKEND_URL } from '../utils/config';
 import ChatBox from '../components/chatBox';

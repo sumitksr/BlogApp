@@ -37,9 +37,9 @@ export default function EditPost() {
       });
   }, [userid]);
 
-  function handleEdit(id) {
-    // Edit functionality is currently disabled
-  }
+  // function handleEdit(id) {
+  //   // Edit functionality is currently disabled
+  // }
 
   function handleDelete(id) {
     if (window.confirm('Are you sure you want to delete this post?')) {
