@@ -10,7 +10,7 @@ export default function EditPost() {
   // Track which post is being edited
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({ title: '', summary: '', content: '' });
-  const [editImage, setEditImage] = useState(null);
+
   const [saving, setSaving] = useState(false);
   const imageInputRef = useRef();
 
@@ -52,7 +52,7 @@ export default function EditPost() {
       summary: post.summary || '',
       content: post.content || '',
     });
-    setEditImage(null);
+
     if (imageInputRef.current) imageInputRef.current.value = '';
   }
 
@@ -60,8 +60,7 @@ export default function EditPost() {
   function handleCancelEdit() {
     setEditingId(null);
     setEditForm({ title: '', summary: '', content: '' });
-    editImage= null;
-    setEditImage(null);
+
   }
 
   // Handle form field changes
