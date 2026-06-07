@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BACKEND_URL } from '../utils/config';
+import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -33,6 +35,7 @@ export default function Register() {
       const res = await fetch(`${BACKEND_URL}/api/v1/upload/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
@@ -42,7 +45,10 @@ export default function Register() {
       const data = await res.json();
       if (data.success) {
         alert("Registered successfully!");
-        navigate('/login');
+        if (data.token) {
+          login(data.token);
+        }
+        navigate('/');
       } else {
         setError(data.message || "Registration failed");
       }

@@ -23,16 +23,36 @@ exports.signup = async (req, res) => {
             password: hashedPassword,
         });
 
-        // Respond with success
-        res.status(201).json({
-            message: 'User created successfully',
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email,
-            },
+        // Prepare JWT payload
+        const payload = {
+            id: user._id,
+            email: user.email,
+            role: user.role,
+        };
+
+        // Generate token
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {
+            expiresIn: '24h',
         });
-        login(email, password, res); // Automatically log in the user after signup
+
+        // Convert user to plain object and remove password
+        const userObj = user.toObject();
+        userObj.token = token;
+        userObj.password = undefined;
+
+        // Cookie options
+        const options = {
+            expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days
+            httpOnly: true,
+        };
+
+        res.cookie("token", token, options).status(201).json({
+            success: true,
+            message: 'User created successfully',
+            token,
+            user: userObj,
+        });
+        
 
     } catch (error) {
         console.error('Error during signup:', error);
