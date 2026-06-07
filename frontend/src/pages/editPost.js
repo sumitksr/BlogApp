@@ -97,7 +97,6 @@ export default function EditPost() {
         );
         setEditingId(null);
         setEditForm({ title: '', summary: '', content: '' });
-        setEditImage(null);
         alert('Post updated successfully!');
       } else {
         alert(data.message || 'Failed to update post');
