@@ -6,7 +6,7 @@ const fileUpload = require('express-fileupload');
 const app = express();
 
 app.use(cors({
-  origin: ["http://localhost:3000", "https://blogapp-sumitksr.vercel.app"],
+  origin: ["http://localhost:3000", "https://blogapp-sumitksr.vercel.app","https://blogapp.sumitksr.xyz"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
   optionsSuccessStatus: 200,
